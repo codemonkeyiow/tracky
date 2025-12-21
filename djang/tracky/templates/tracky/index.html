@@ -1,0 +1,59 @@
+{% extends 'tracky/base.html' %}
+{% block content %}
+    <div class="row">
+        {% for meal in meals %}
+        <div class="col-6 col-lg-4">
+            <div class="card">
+                {% if meal.image %}
+                <img src="{{ meal.image.url }}" class="card-img-top" alt="...">
+                {% endif %}
+                <div class="card-body">
+                    <h1 class="card-title">{{ meal }}</h1>
+
+                    <p>{{ meal.get_calories|floatformat:0 }} calories</p>
+                    <p>Sodium {{ meal.get_sodium|floatformat:2 }}mg</p>
+                    <p>Potassium {{ meal.get_potassium|floatformat:2 }}mg</p>
+                    <p>Magnesium {{ meal.get_magnesium|floatformat:2 }}mg</p>
+
+                    <div class="accordion">
+                        {% comment %} <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseRecipes" role="button" aria-expanded="false" aria-controls="collapseRecipes">
+                            Recipes
+                        </a> {% endcomment %}
+                        <details>
+                            <summary>Recipes</summary>
+                            {% for mr in meal.mealrecipe_set.all %}
+                                <ul>
+                                    <p><b>{{ mr.recipe.name }}</b> {{ mr.recipe.get_calories|floatformat:0 }}cal</p>
+                                    <li>Sodium {{ mr.recipe.get_sodium|floatformat:2 }}mg</li>
+                                    <li>Potassium {{ mr.recipe.get_potassium|floatformat:2 }}mg</li>
+                                    <li>Magnesium {{ mr.recipe.get_magnesium|floatformat:2 }}mg</li>
+                                </ul>
+                                <ul>
+                                {% for ri in mr.recipe.recipeingredient_set.all %}
+                                    <li>{{ ri.ingredient.name }} - {{ ri.grams|floatformat:2 }}g</li>
+                                {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        </details>
+
+                        <details>
+                            <summary>Additional</summary>
+                            <ul>
+                                {% for mi in meal.mealingredient_set.all %}
+                                    <p><b>{{ mi.ingredient.name }}</b> {{ mi.grams|floatformat:2 }}g {{ mi.get_calories|floatformat:0 }}cal</p>
+                                    <li>Sodium: {{ mi.ingredient.sodium|floatformat:2 }}mg</li>
+                                    <li>Potassium: {{ mi.ingredient.potassium|floatformat:2 }}mg</li>
+                                    <li>Magnesium: {{ mi.ingredient.magnesium|floatformat:2 }}mg</li>
+                                {% endfor %}
+                            </ul>
+                        </details>
+                    </div>
+
+
+                    <!--a href="#" class="btn btn-primary">Go somewhere</a-->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

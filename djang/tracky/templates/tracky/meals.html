@@ -1,0 +1,63 @@
+{% extends 'tracky/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ today.first.on.date }} - {{ today_calories|floatformat:0 }}cal</p>
+                    <p>
+                        <span style="color:#0f0">{{ today_protein|floatformat:0 }}</span>
+                        <span style="color:#00f">{{ today_fat|floatformat:0 }}</span>
+                        <span style="color:#f00">{{ today_fibre|floatformat:0 }}</span>
+                        <span style="color:#f0f">{{ today_carbs|floatformat:0 }}</span>
+                        <span style="color:#0ff">{{ today_sugar|floatformat:0 }}</span>
+                    </p>
+                    <ul>
+                        <li>Sodium: {{ today_sodium|floatformat:2 }}mg</li>
+                        <li>Potassium: {{ today_potassium|floatformat:2 }}mg</li>
+                        <li>Magnesium: {{ today_magnesium|floatformat:2 }}mg</li>
+                    </ul>
+                    <div class="accordion">
+                        {% for meal in today %}
+                        <details>
+                            <!-- SUMMARY -->
+                            <summary>{{ meal.on.time }} {{ meal.get_calories|floatformat:0 }}cal {% for mr in meal.mealrecipe_set.all %}{{ mr.recipe.name }} {% endfor %}</summary>
+                            <ul>
+                                <li>Sodium {{ meal.get_sodium|floatformat:2 }}mg</li>
+                                <li>Potassium {{ meal.get_potassium|floatformat:2 }}mg</li>
+                                <li>Magnesium {{ meal.get_magnesium|floatformat:2 }}mg</lip>
+                            </ul>
+
+                            <!-- RECIPES -->
+                            {% for mr in meal.mealrecipe_set.all %}
+                                <ul>
+                                    <p><b>{{ mr.recipe.name }}</b> {{ mr.recipe.get_calories|floatformat:0 }}cal</p>
+                                    <li>Sodium {{ mr.recipe.get_sodium|floatformat:2 }}mg</li>
+                                    <li>Potassium {{ mr.recipe.get_potassium|floatformat:2 }}mg</li>
+                                    <li>Magnesium {{ mr.recipe.get_magnesium|floatformat:2 }}mg</li>
+                                </ul>
+                                <ul>
+                                {% for ri in mr.recipe.recipeingredient_set.all %}
+                                    <li>{{ ri.ingredient.name }} - {{ ri.grams|floatformat:2 }}g</li>
+                                {% endfor %}
+                                </ul>
+                            {% endfor %}
+
+                            <!-- ADDITIONAL -->
+                            <ul>
+                                {% for mi in meal.mealingredient_set.all %}
+                                    <p><b>{{ mi.ingredient.name }}</b> {{ mi.grams|floatformat:2 }}g {{ mi.get_calories|floatformat:0 }}cal</p>
+                                    <li>Sodium: {{ mi.ingredient.sodium|floatformat:2 }}mg</li>
+                                    <li>Potassium: {{ mi.ingredient.potassium|floatformat:2 }}mg</li>
+                                    <li>Magnesium: {{ mi.ingredient.magnesium|floatformat:2 }}mg</li>
+                                {% endfor %}
+                            </ul>
+                        </details>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}

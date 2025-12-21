@@ -1,0 +1,13 @@
+{% extends 'tracky/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-6 col-lg-4">
+            {% for meal in meals %}
+            <ul>
+                <li>{{ meal.on }} <b>{{ meal.calories|floatformat:0 }}</b></li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% endblock content %}

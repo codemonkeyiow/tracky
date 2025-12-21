@@ -1,0 +1,10 @@
+{% extends 'tracky/base.html' %}
+{% block content %}
+    <div class="row">
+        <ul>
+        {% for drink in drinks %}
+            <li>{{ drink }} {{ drink.litres|floatformat:3 }}L</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
