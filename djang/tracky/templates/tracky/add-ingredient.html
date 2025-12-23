@@ -1,0 +1,24 @@
+{% extends 'tracky/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit">
+</form>
+
+
+{% comment %} <form action="{% url 'tracky:ingredient' ingredient.id %}" method="post">
+{% csrf_token %}
+<fieldset>
+    <legend><h1>{{ ingredient.name }}</h1></legend>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for choice in ingredient.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+    {% endfor %}
+</fieldset>
+<input type="submit" value="Vote">
+</form> {% endcomment %}
+{% endblock content %}

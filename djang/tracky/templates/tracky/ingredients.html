@@ -1,0 +1,10 @@
+{% extends 'tracky/base.html' %}
+{% block content %}
+
+<div class="row">
+    {% for ingredient in ingredients %}
+    <p>{{ ingredient.name }}</p>
+    {% endfor %}
+</div>
+
+{% endblock content %}

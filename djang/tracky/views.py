@@ -4,6 +4,7 @@ import logging
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from tracky.forms import *
 from tracky.models import *
 
 logger = logging.getLogger(__name__)
@@ -20,6 +21,30 @@ class Index(TemplateView):
             {
                 'meals': Meal.objects.all(),
             },
+        )
+
+class Ingredients(TemplateView):
+    template_name = 'tracky/ingredients.html'
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            {
+                'ingredients': Ingredient.objects.all(),
+            }
+        )
+
+class AddIngredient(TemplateView):
+    template_name = 'tracky/add-ingredient.html'
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': IngredientForm()
+            }
         )
 
 class Meals(TemplateView):
